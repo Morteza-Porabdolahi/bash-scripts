@@ -1,0 +1,45 @@
+#!/bin/bash
+
+function run_menu() {
+    local OPTIONS=("Global" "Local")
+    local PS3="Please choose what environment you want the packages to be installed? "
+
+    select OPTION in "${OPTIONS[@]}"
+    do
+        case $REPLY in 
+            1|2)
+                choose_packages $OPTION
+                break
+                ;;
+            *)
+                echo "Please choose one of the specified options !"
+                exit 1
+                ;;
+        esac
+    done
+}
+
+function choose_packages() {
+    local OPTION=$1
+    read -p "Enter the package name/names you want to install it ${OPTION}y (separated by space): " PACKAGES
+
+    if [ -z "$PACKAGES" ]; then
+        echo "Please specify at least one package name !"
+        exit 1
+    fi
+
+    local VERFIED_NAMES=$(echo $PACKAGES | sed 's/[^-a-zA-Z0-9@/ ]/ /g')
+
+    case $OPTION in 
+        "Local")
+                npm install ${VERFIED_NAMES}
+                ;;
+        "Global")
+                sudo npm install -g ${VERFIED_NAMES}
+                ;;
+    esac
+}
+
+run_menu
+
+exit 0
