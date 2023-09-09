@@ -1,0 +1,2 @@
+echo Pinging 4.2.2.4
+ping 4.2.2.4 | grep -Eo --color=never "time=.+"
