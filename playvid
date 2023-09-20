@@ -1,0 +1,9 @@
+videoPath=$1
+
+if [[ -z "$videoPath" ]]; then
+  echo "Please specify a video path"
+else
+  complete -d -f -X '!*.@(mp4|mkv)' playvid
+  currentPath=$(realpath "$videoPath") && dirname "$currentPath"
+  mplayer -xy 1000 -geometry 50%:50% "$currentPath"
+fi

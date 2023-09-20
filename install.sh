@@ -1,27 +1,16 @@
 #!/bin/bash
 
 function install_scripts(){
-    local SCRIPTS=("Node package installer (npi)" "Ping Utility (pingme)")
-    local PS3="Select the package you want to install: "
+    for file in *; do 
+        file=$(basename -- "$file") 
+        filename="${file%.*}"
+        extension="${filename##*.}"
 
-    select SCRIPT in "${SCRIPTS[@]}"
-    do
-        case $REPLY in
-            1)
-                sudo cp ./npi /usr/bin 
-                echo 'Use the command "npi" to use the package !'
-                exit 0
-                ;;
-            2)
-                sudo cp ./pingme /usr/bin 
-                echo 'Use the command "pingme" to use the package !'
-                exit 0
-                ;;
-            *)
-                echo "Please select one of the specified scripts !"
-                exit 1
-                ;;
-        esac
+        if [[ "$extension" == "$file" ]]; then
+            chmod +x "$file"
+            sudo ln -s $(realpath $file) /usr/bin 2>/dev/null
+        fi
+
     done
 }
 
