@@ -5,5 +5,5 @@ if [[ -z "$videoPath" ]]; then
 else
   complete -d -f -X '!*.@(mp4|mkv)' playvid
   currentPath=$(realpath "$videoPath") && dirname "$currentPath"
-  mplayer -xy 1000 -geometry 50%:50% "$currentPath"
+  mplayer -xy 1000 -geometry 50%:50% "$currentPath" -vo gl
 fi
